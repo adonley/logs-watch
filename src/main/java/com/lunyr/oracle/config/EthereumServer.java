@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -87,7 +88,17 @@ public class EthereumServer extends EthereumListenerAdapter {
                         return sb.toString();
                     }).collect(Collectors.joining());
                     List<String> data32Bytes = Arrays.asList(logData.split("(?<=\\G.{32})"));
-                    break;
+
+                    StringBuilder sb = new StringBuilder(summary.getTransaction().getHash().length + 1);
+                    for(byte b: summary.getTransaction().getHash()) {
+                        sb.append(String.format("%02x", b));
+                    }
+                    try {
+                        this.ethereumLogService.save(topicWords, data32Bytes, sb.toString());
+                    } catch (Exception e) {
+                        LOGGER.error("Could not insert new logData: " + e.getMessage());
+                        e.printStackTrace();
+                    }
                 }
             }
         }

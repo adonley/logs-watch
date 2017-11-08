@@ -36,6 +36,7 @@ dependencies {
 		exclude group: "org.slf4j", module: "log4j-over-slf4j"
 		exclude group: "org.slf4j", module: "slf4j-log4j12"
 	}
+    compile([group: 'org.flywaydb',  name:'flyway-core', version: '4.2.0'])
 	runtime('mysql:mysql-connector-java')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')

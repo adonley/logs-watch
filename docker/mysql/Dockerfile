@@ -42,7 +42,7 @@ RUN set -ex; \
 	apt-key list > /dev/null
 
 ENV MYSQL_MAJOR 5.7
-ENV MYSQL_VERSION 5.7.19-1debian8
+ENV MYSQL_VERSION 5.7.20-1debian8
 
 ENV MYSQL_ALLOW_EMPTY_PASSWORD="yes"
 ENV MYSQL_DATABASE="ethereumoracle"

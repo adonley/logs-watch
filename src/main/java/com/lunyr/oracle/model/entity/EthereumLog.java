@@ -1,6 +1,7 @@
 package com.lunyr.oracle.model.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class EthereumLog extends BaseEntity {
     @Id
     @Column(name="id", nullable=false, updatable=false)

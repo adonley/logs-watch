@@ -15,7 +15,7 @@ services:
     expose:
       - "3307"
       - "3306"
-  backend:
+  oracle:
     build: .
     depends_on:
       - mysql-local
