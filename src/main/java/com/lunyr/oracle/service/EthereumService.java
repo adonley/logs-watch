@@ -2,8 +2,6 @@ package com.lunyr.oracle.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lunyr.oracle.config.EthereumServer;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +23,11 @@ public class EthereumService {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private final EthereumServer ethereumServer;
-    private final EthereumLogsService ethereumLogsService;
-    private final LogHashService logHashService;
-
+    private final EthereumLogService ethereumLogService;
 
     @Autowired
-    public EthereumService(
-            final EthereumLogsService ethereumLogsService,
-            final LogHashService logHashService
-    ) {
-        this.ethereumLogsService = ethereumLogsService;
-        this.logHashService = logHashService;
+    public EthereumService(final EthereumLogService ethereumLogService) {
+        this.ethereumLogService = ethereumLogService;
 
         // I know... close those eyes.
         List<List<String>> tempList = new ArrayList<>();
@@ -66,7 +58,7 @@ public class EthereumService {
             e.printStackTrace();
             LOGGER.error("Could not read the json file 'listen-logs.json' error: " + e.toString());
         }
-        this.ethereumServer = new EthereumServer(ethereumLogsService, logHashService, tempList);
+        this.ethereumServer = new EthereumServer(ethereumLogService, tempList);
         Executors.newSingleThreadExecutor().submit(ethereumServer::start);
     }
 }

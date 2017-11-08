@@ -13,4 +13,7 @@ public class EthereumLogData {
     @Column(name = "id", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name="hex_data", unique=true)
+    private String hexData;
 }

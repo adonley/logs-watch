@@ -1,7 +1,6 @@
 package com.lunyr.oracle.config;
 
-import com.lunyr.oracle.service.EthereumLogsService;
-import com.lunyr.oracle.service.LogHashService;
+import com.lunyr.oracle.service.EthereumLogService;
 
 import lombok.Getter;
 import org.ethereum.core.TransactionExecutionSummary;
@@ -26,18 +25,15 @@ public class EthereumServer extends EthereumListenerAdapter {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private Ethereum ethereum;
-    private EthereumLogsService ethereumLogsService;
-    private LogHashService logHashService;
+    private EthereumLogService ethereumLogService;
     private List<List<String>> interestingLogList;
     @Getter private boolean syncDone = false;
 
     public EthereumServer(
-            final EthereumLogsService ethereumLogsService,
-            final LogHashService logHashService,
+            final EthereumLogService ethereumLogService,
             final List<List<String>> interestingLogList
     ) {
-        this.ethereumLogsService = ethereumLogsService;
-        this.logHashService = logHashService;
+        this.ethereumLogService = ethereumLogService;
         this.interestingLogList = new ArrayList<>();
 
         for(List<String> logList: interestingLogList) {

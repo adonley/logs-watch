@@ -13,4 +13,9 @@ public class TopicWord {
     @Column(name = "id", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name="hash_str", unique = true)
+    private String hash;
+
+    // TODO: Many to many
 }
