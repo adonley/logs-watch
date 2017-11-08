@@ -2,6 +2,8 @@ package com.lunyr.oracle.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lunyr.oracle.config.EthereumServer;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,10 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 @Service
 public class EthereumService {
@@ -26,6 +27,7 @@ public class EthereumService {
     private final EthereumServer ethereumServer;
     private final EthereumLogsService ethereumLogsService;
     private final LogHashService logHashService;
+
 
     @Autowired
     public EthereumService(
@@ -36,26 +38,30 @@ public class EthereumService {
         this.logHashService = logHashService;
 
         // I know... close those eyes.
-        List<String> tempList = null;
+        List<List<String>> tempList = new ArrayList<>();
         try {
             ApplicationContext appContext = new ClassPathXmlApplicationContext();
             Resource resource = appContext.getResource("classpath:/listen-logs.json");
             File zipsFile = resource.getFile();
-            StringBuilder zipsString = new StringBuilder();
+            StringBuilder jsonString = new StringBuilder();
             try (Scanner scanner = new Scanner(zipsFile)) {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    zipsString.append(line).append("\n");
+                    jsonString.append(line).append("\n");
                 }
                 scanner.close();
             } catch (IOException e) {
                 e.printStackTrace();
                 LOGGER.error("Could not scan the listen-logs.json file: " + e.getLocalizedMessage());
             }
-            ObjectMapper objectMapper = new ObjectMapper();
-            tempList = Arrays.stream(objectMapper.readValue(zipsString.toString(), String[].class))
-                    .map(String::trim)
-                    .collect(Collectors.toList());
+            String [][] taa =  new ObjectMapper().readValue(jsonString.toString(), String[][].class);
+            for(String[] ta: taa) {
+                List<String> l = new ArrayList<>();
+                for(String t: ta) {
+                    l.add(t.trim());
+                }
+                tempList.add(l);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             LOGGER.error("Could not read the json file 'listen-logs.json' error: " + e.toString());
