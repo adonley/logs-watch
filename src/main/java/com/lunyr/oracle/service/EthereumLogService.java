@@ -43,4 +43,8 @@ public class EthereumLogService {
     public List<EthereumLog> getByTopic(String topic) {
         return new ArrayList<>();
     }
+
+    public EthereumLog getById(Long id) {
+        return this.ethereumLogRepository.findOne(id);
+    }
 }

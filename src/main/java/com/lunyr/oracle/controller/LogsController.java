@@ -30,6 +30,7 @@ public class LogsController {
 
     @GetMapping(path="/")
     public List<EthereumLog> getLogs(@PathVariable String topic, BindingResult bindingResult) {
+        this.ethereumLogService.getById(1L);
         return this.ethereumLogService.getByTopic(topic);
     }
 }
