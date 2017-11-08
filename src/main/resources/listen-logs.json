@@ -1,0 +1,4 @@
+[
+  "Transfer(address,address,uint256)",
+  "Deposit(address,hash256,uint256)"
+]
