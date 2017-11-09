@@ -26,4 +26,4 @@ VOLUME ./logs /backend/logs
 EXPOSE 8080
 
 # TODO: I know this is large
-ENTRYPOINT [ "sh", "-c", "java -Xms1M -Xmx4G -Djava.security.egd=file:/dev/./urandom -jar $(find . -name oracle*.jar)" ]
+ENTRYPOINT [ "sh", "-c", "java -Xms1M -Xmx4G -Xss2M -Djava.security.egd=file:/dev/./urandom -jar $(find . -name oracle*.jar)" ]

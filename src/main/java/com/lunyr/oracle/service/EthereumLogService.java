@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -86,7 +88,7 @@ public class EthereumLogService {
         }
 
         ethereumLog.setTxHash(txHash);
-        ethereumLog.setTopicWords(topicWordResults);
+        ethereumLog.setTopicWords(new HashSet<>(topicWordResults));
         ethereumLog.setLogData(logDataResults);
         // Try to get allTopicWords
         return this.ethereumLogRepository.save(ethereumLog);
@@ -101,7 +103,12 @@ public class EthereumLogService {
     }
 
     public List<EthereumLog> getByTopic(String topic) {
-        return new ArrayList<>();
+        List<EthereumLog> l = new ArrayList<>();
+        Optional<TopicWord> topicWordOptional = this.topicWordRepository.findByHash(topic);
+        if(topicWordOptional.isPresent()) {
+            return this.ethereumLogRepository.findByTopic(topicWordOptional.get());
+        }
+        return l;
     }
 
     public EthereumLog getById(Long id) {

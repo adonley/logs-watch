@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class LogsController {
         this.ethereumLogService = ethereumLogService;
     }
 
-    @GetMapping(path="/")
+    @RequestMapping(value="/", method= RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE )
     public List<EthereumLog> getLogs(@RequestParam String topic) {
         return this.ethereumLogService.getByTopic(topic);
     }
